@@ -1,0 +1,1150 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671
+{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;\f2\fnil\fcharset0 Menlo-Regular;
+\f3\fnil\fcharset0 HelveticaNeue;}
+{\colortbl;\red255\green255\blue255;\red251\green2\blue7;\red0\green0\blue0;\red255\green255\blue255;
+\red92\green38\blue153;\red0\green0\blue255;\red0\green0\blue0;\red251\green2\blue7;\red25\green190\blue64;
+\red0\green128\blue0;\red63\green110\blue116;\red191\green191\blue191;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c14913\c0;\csgenericrgb\c0\c0\c0;\csgenericrgb\c100000\c99997\c99999;
+\csgenericrgb\c35900\c14900\c60100;\csgenericrgb\c0\c0\c100000;\cssrgb\c0\c0\c0;\csgenericrgb\c98625\c712\c2743;\csgenericrgb\c9753\c74518\c25175;
+\csgenericrgb\c0\c50196\c0;\csgenericrgb\c24700\c43100\c45600;\csgray\c79525;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww14900\viewh23200\viewkind1
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs36 \cf0 \ul \ulc0 C++ Utilities
+\f1\b0\fs24 \ulnone \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b \cf0 Date
+\f1\b0  Dec 6 2018\
+\
+Bunch of C++ utilities I wrote.\
+Do note I am not a C++ expert.\
+I wrote these for my use and practice.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf2 I am not going to repeat what is in the header files in this document.\cf0 \
+I will document APIs which need some detailed explanation or to give examples.\
+\
+Also see Usage.cpp file.\
+\
+
+\f0\b\fs28 \ul String Stuff
+\f1\b0\fs24 \ulnone \
+\
+Most of the APIs are basic utilities with no hidden surprises so I will not document them here.\
+\
+These functions will throw a StringStuffEx exception:\
+	
+\f2\fs20 \cf3 \cb4 RPStringToBytesEx()
+\fs22 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 \cb1 \ul \
+RPStringBetween\ulnone \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf5 \cb4 std\cf3 ::\cf5 string\cf3  RPStringBetween(\cf6 const\cf3  \cf5 std\cf3 ::\cf5 string\cf3 & s, \cf6 const\cf3  \cf5 std\cf3 ::\cf5 string\cf3 & open, \cf6 const\cf3  \cf5 std\cf3 ::\cf5 string\cf3 & close, \cf6 long\cf3 & openPos, \cf6 long\cf3 & closePos);\
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f3\fs24 \cf7 Return string in-between 
+\f2\fs20 open
+\f3\fs24  and 
+\f2\fs20 close
+\f3\fs24 .\
+If 
+\f2\fs20 open
+\f3\fs24  is empty, return string before close.\
+If 
+\f2\fs20 close
+\f3\fs24  is empty, return string after open.\
+If both are empty, return original string.\
+If 
+\f2\fs20 open
+\f3\fs24  or 
+\f2\fs20 close
+\f3\fs24  are not present, an empty string is returned.\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+\cf3 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 \cb1 openPos
+\f1\fs24  & 
+\f2\fs20 closePos
+\f1\fs24  will be set to the marker positions or -1 if not present or empty.\
+\
+Input string : \'93A big round [jelly] bean\'94.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 \ul open		close		openPos	closePos		Result\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \ulnone Empty	Empty		-1		-1		\'93A big round [jelly] bean\'94\
+\'93[\'93		Empty		12		-1		\'93jelly] bean\'94\
+Empty	\'93]\'94			-1		18		\'93A big round [jelly\'94\
+\'93[\'93		\'93]\'94			12		18		\'93jelly\'94\
+\'93++\'94		Empty		-1		-1		Empty
+\fs22 \cf3 \cb4 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 \cb1 \
+\
+\ul RPReduceConsecutiveCharacters\ulnone \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf6 \cb4 void\cf3  RPReduceConsecutiveChars(\cf5 std\cf3 ::\cf5 string\cf3 & srce);
+\f1\fs24 \cf0 \cb1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+Reduce all sequences of consecutive characters to one character.\
+e.g. \'91ABCCCDDE\'92 -> \'91ABCDE\'92.\
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf6 \cb4 void\cf3  RPReduceConsecutiveChars(\cf5 std\cf3 ::\cf5 string\cf3 & srce, \cf6 char\cf3  c);
+\f1\fs24 \cf0 \cb1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+Reduce all sequences of consecutive character 
+\f2\fs20 \cf7 c
+\f1\fs24 \cf0  to one character.\
+e.g. srce =  \'91ABCCCDDE\'92 -> \'91ABCDE\'92, c = \'91C\'92	->	\'91ABCDDE\'92.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 __________________________________________________________________________
+\f1\fs24 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 \ul Converters
+\f1\b0\fs24 \ulnone \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \ul MapToArrays\ulnone \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf6 \cb4 template\cf3  <\cf6 class\cf3  T,\cf6 class\cf3  U>
+\f1\fs24 \cf0 \
+
+\f2\fs22 \cf3 	\cf6 using\cf3  ArrayPair = \cf5 std\cf3 ::\cf5 pair\cf3 <\cf5 std\cf3 ::\cf5 vector\cf3 <T>, \cf5 std\cf3 ::\cf5 vector\cf3 <U> >;
+\f1\fs24 \cf0 \
+\
+
+\f2\fs22 \cf6 template\cf3  <\cf6 class\cf3  T,\cf6 class\cf3  U> ArrayPair<T,U> MapToArrays(\cf6 const\cf3  \cf5 std\cf3 ::\cf5 map\cf3 <T,U>& M)
+\f1\fs24 \cf0 \cb1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+Returns two parallel arrays of passed map (dictionary).\
+\
+\ul ArraysToMap\ulnone \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf6 \cb4 template\cf3  <\cf6 class\cf3  T,\cf6 class\cf3  U> \cf5 std\cf3 ::\cf5 map\cf3 <T,U> ArraysToMap(\cf6 const\cf3  \cf5 std\cf3 ::\cf5 vector\cf3 <T>& K, \cf6 const\cf3  \cf5 std\cf3 ::\cf5 vector\cf3 <U>& V)
+\f1\fs24 \cf0 \cb1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+Create a map (dictionary) using passed, 
+\f0\b same sized
+\f1\b0 , arrays.\
+If the array sizes are different, a 
+\f2\fs20 VectorSizeMismatchEx
+\f1\fs24  exception will be thrown.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 __________________________________________________________________________
+\f1\fs24 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 \ul Colour
+\f1\b0\fs24 \ulnone \
+\
+Basic colour class with a few colour space conversion methods.\
+It is not for experts, just for colour usage amateurs like me.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 __________________________________________________________________________
+\f1\fs24 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 \ul MultiString
+\f1\b0\fs24 \ulnone \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf7 A wrapper for 
+\f2\fs20 std::set<string>
+\f1\fs24  with operators 
+\f2\fs20 ==
+\f1\fs24  & 
+\f2\fs20 !=
+\f1\fs24 .\
+Has case-insensitivity option.\
+\
+The operators call through to 
+\f2\fs20 Contains()
+\f1\fs24  method.\
+Which in turn either calls 
+\f2\fs20 std::set.contains()
+\f1\fs24  if case-insensitive or iterate through the underlying set and calls 
+\f2\fs20 RPStringEqualCaseInsen()
+\f1\fs24 .\cf0 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 __________________________________________________________________________
+\f1\fs24 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 \ul PathClass
+\f1\b0\fs24 \ulnone \
+\
+Class which represents an arbitrary path defined by a path marker (a 
+\f2\fs20 \cf7 char
+\f1\fs24 \cf0 ).\
+It was originally written for posix filing system paths, but it is capable of any type of path.\
+Cannot use 0 (null) as a path marker. An exception will be thrown.\
+\
+These are the path conversion methods.\
+Take note on how the act upon the path.\
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf6 \cb4 void\cf3  ConvertDirMarkers(\cf6 char\cf3  newMarker);\
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+\cf8 Path =\'92A/B/C:s:3/D\'92. newMarker = ':' -> 'A:B:C:s:3:D'\cf3 \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+\cf6 void\cf3  SwapDirMarkers(\cf6 char\cf3  newMarker);\
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+\cf8 Path =\'92A/B/C:s:3/D\'92. newMarker = ':' -> \'91A:B:C/s/3:D\'92\cf3 \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+\cf6 void\cf3  ChangeDirMarker(\cf6 char\cf3  newMarker);\
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+\cf8 Path =\'92A/B/C:s:3/D\'92. newMarker = ':' -> \'92A/B/C:s:3/D\'92
+\f1\fs24 \cf0 \cb1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\
+Added the postfix 
+\f2\fs22 \cf6 \cb4 operator\cf3 --
+\f1\fs24 \cf0 \cb1  . This removes the last component from the path.\
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf8 \cb4 Path =\'92A/B/C:s:3/D\'92	->	\'92A/B/C:s:3\'92
+\f1\fs24 \cf0 \cb1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf6 \cb4 void\cf3  RemoveSuffix(\cf6 const\cf3  \cf5 std\cf3 ::\cf5 string\cf3 & suffix);
+\f1\fs24 \cf0 \cb1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+This will remove the suffix of the last component 
+\f0\b after
+\f1\b0  the last directory marker.\
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf8 \cb4 Path ='A/B/C/D.txt' -> 'A/B/C/D'\cf0 \
+\cf8 Path ='A/B/C.txt/D' -> 'A/B/C.txt/D'
+\f1\fs24 \cf0 \cb1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\ul Important\ulnone : if the directory marker is a dot (.), an exception will be thrown.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 __________________________________________________________________________
+\f1\fs24 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 \ul Binary File Classes
+\f1\b0\fs24 \ulnone \
+\
+Two classes : 
+\f2\fs20 ABinaryFile
+\f1\fs24  & 
+\f2\fs20 ABigBinaryFile
+\f1\fs24 .\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 ABinaryFile
+\f1\fs24  will attempt to load the entire file into memory.\
+If either succeeds or it doesn\'92t.\
+\
+
+\f2\fs20 ABigBinaryFile
+\f1\fs24  loads sections of the file on demand.\
+You give it a block size (256-65535 bytes) and a maximum block count.\
+It will then load (& purge) blocks as necessary.\
+\
+Both classes are read-only and do not contain the ability to write in any form.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \ul ABinaryFile\ulnone \
+\
+The 
+\f2\fs22 \cf6 \cb4 operator\cf3 []
+\f1\fs24 \cf0 \cb1  acts as a byte array index.\
+If you go beyond the data size, an exception will be thrown.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 B16(), B32() & B64()
+\f1\fs24  will return a 16 bit, 32 bit & 64 bit value respectively from the passed 
+\f0\b byte
+\f1\b0  position.\
+If the byte position + type size extends beyond the data size, an exception will be thrown.\
+\
+It is possible to open a zero sized file.\
+\
+Once the data is loaded, the class has no need for the original file.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \ul ABigBinaryFile\ulnone \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf3 \cb4 ABigBinaryFile(\cf6 int\cf3  desc, \cf5 uint16_t\cf3  blockSz, \cf5 uint64_t\cf3  maxBlks);
+\f1\fs24 \cf0 \
+
+\f2\fs22 \cf3 ABigBinaryFile(\cf6 const\cf3  \cf5 std\cf3 ::\cf5 string\cf3 & path, \cf5 uint16_t\cf3  blockSz, \cf5 uint64_t\cf3  maxBlks);
+\f1\fs24 \cf0 \cb1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 blockSz
+\f1\fs24  is the size of each block stored in the class. It has a range of 
+\f2\fs20 256 - 65535
+\f1\fs24 .\
+Internally the class has an array of malloc\'92ed pointers which are 
+\f0\b not
+\f1\b0  a contiguous lump of memory.\
+The pointers are created with size 
+\f2\fs20 blkSize
+\f1\fs24 . \
+The pointer array size is 
+\f2\fs20 maxBlks
+\f1\fs24  and is created upon construction.\
+\
+
+\f2\fs20 maxBlks
+\f1\fs24  cannot be zero and inadvisable for it to be too small relative to the file\'92s size.\
+\
+I did not do a contiguous lump because if large enough, the system will throw a fit.\
+\
+\
+This class maintains an open 
+\f2\fs20 FILE*
+\f1\fs24  property for the lifetime of the class.\
+It will only be closed in the destructor.\
+\
+The copy constructor and assignment operator will 
+\f0\b open
+\f1\b0  a new 
+\f2\fs20 FILE
+\f1\fs24  and 
+\f0\b not
+\f1\b0  copy the source\'92s copy.\
+\
+If the underlying file cannot be accessed for any reason, exceptions will be thrown when the class attempts to load data.\
+\
+The user defined block size can be any value, not necessarily page-aligned (though it will make the system happy if it is).\
+\
+Generally, if you do reads from random positions in the file, the performance will suffer greatly, depending the the user defined maximum block count.\
+Sequential reads are as fast as the system can load data into memory.\
+
+\f2\fs20 __________________________________________________________________________\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 \ul Text File Classes
+\f1\b0\fs24 \ulnone \
+\
+Two classes : 
+\f2\fs20 ATextFile
+\f1\fs24  & 
+\f2\fs20 ABigTextFile
+\f1\fs24 .\
+These two are subclasses of 
+\f2\fs20 ABinaryFile
+\f1\fs24  & 
+\f2\fs20 ABigBinaryFile
+\f1\fs24  respectively.\
+\
+These classes are read-only and have no write capability.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b \cf0 Both
+\f1\b0 \
+The classes support unix (10), windows (13,10) & classic mac (13) new lines.\
+The default is unix.\
+\
+The classes overrides the 
+\f0\b non-virtual
+\f1\b0  
+\f2\fs20 operator[]
+\f1\fs24  method and return a 
+\f2\fs20 std::string
+\f1\fs24  instead of a 
+\f2\fs20 uint8
+\f1\fs24 .\
+\
+\ul ATextFile\ulnone \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf3 \cb4 ATextFile(\cf6 int\cf3  desc, \cf9 NewLine\cf3  lf = \cf9 NewLine\cf3 ::\cf10 unix\cf3 );
+\f1 \cf0 \
+
+\f2 \cf3 ATextFile(\cf6 const\cf3  \cf5 std\cf3 ::\cf5 string\cf3 & path, \cf9 NewLine\cf3  lf = \cf9 NewLine\cf3 ::\cf10 unix\cf3 );
+\f1 \cf0 \
+
+\f2 \cf3 ATextFile(\cf6 void\cf3 * memoryBlock, \cf5 uint64_t\cf3  memSize, \cf9 NewLine\cf3  lf = \cf9 NewLine\cf3 ::\cf10 unix\cf3 );
+\f1\fs24 \cf0 \cb1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+The third constructor does not require a file, just a memory block containing the text file.\
+It uses a protected constructor of 
+\f2\fs20 ABinaryFile
+\f1\fs24  to 
+\f0\b copy
+\f1\b0  the memory block into internal storage.\
+\
+There is not memory block version for 
+\f2\fs20 ABigTextFile
+\f1\fs24  because of how 
+\f2\fs20 ABigBinaryFile
+\f1\fs24  works.\
+\
+\ul ABigTextFile\ulnone \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf3 \cb4 ABigTextFile(\cf6 int\cf3  desc, \cf5 uint16_t\cf3  blockSz, \cf5 uint64_t\cf3  maxBlks, \cf5 uint16_t\cf3  maxLines, \cf11 ATextFile\cf3 ::\cf9 NewLine\cf3  lf = \cf11 ATextFile\cf3 ::\cf9 NewLine\cf3 ::\cf10 unix\cf3 );
+\f1 \cf0 \
+
+\f2 \cf3 	ABigTextFile(\cf6 const\cf3  \cf5 std\cf3 ::\cf5 string\cf3 & path, \cf5 uint16_t\cf3  blockSz, \cf5 uint64_t\cf3  maxBlks, \cf5 uint16_t\cf3  maxLines, \cf11 ATextFile\cf3 ::\cf9 NewLine\cf3  lf = \cf11 ATextFile\cf3 ::\cf9 NewLine\cf3 ::\cf10 unix\cf3 );
+\f1\fs24 \cf0 \cb1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 maxLines
+\f1\fs24  is the maximum number of lines that can be held in the internal cache.\
+\
+Because the underlying file can change, the lines themselves are not guaranteed to be always correct.\
+
+\f2\fs20 Refresh()
+\f1\fs24  will purge all currently stored lines and force the class to retrieve all new-line indexes again.\
+
+\f2\fs20 __________________________________________________________________________\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 \ul PosNeg
+\f1\b0\fs24 \ulnone \
+\
+An abstract class which represents three states: positive, negative & zero.\
+The class has three concrete sub-classes which implement the values.\
+There are three immutable objects created during static initialisation and these are the objects returned by the static method 
+\f2\fs20 Create()
+\f1\fs24 .\
+\
+The classes have no properties which means they only occupy one byte of memory each.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \ul Operators\ulnone \
+Multiplication(*), division(/), addition(+), subtraction(-), post-fix increment(++), post-fix decrement(
+\f2\fs22 \cf3 \cb4 --
+\f1\fs24 )\cf0 \cb1 , less than(<), greater than(>), equal(==) & not-equal(!=).\
+\
+Floating point and integers can can be multiplied or divided by a PosNeg object.\
+Addition & subtraction are not included, it is non-sensical.\
+\
+\ul Tables\ulnone \
+X implies non-sensical and an exception will be thrown.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 \
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1080\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth520\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth580\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth840\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 Addition\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve
+\f1\b0 \cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1080\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth520\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth580\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth840\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 -ve
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 X\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1080\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth520\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth580\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth840\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 Zero
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1080\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth520\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth580\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth840\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 +ve
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 X\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve\cell \lastrow\row
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 \
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1460\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth480\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth620\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth520\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 Subtraction\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve
+\f1\b0 \cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1460\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth480\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth620\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth520\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 -ve
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 X\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1460\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth480\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth620\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth520\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 Zero
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1460\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth480\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth620\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth520\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 +ve
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 X\cell \lastrow\row
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 \
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1580\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth560\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth540\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth560\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 Multiplication\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve
+\f1\b0 \cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1580\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth560\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth540\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth560\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 -ve
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1580\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth560\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth540\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth560\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 Zero
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1580\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth560\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth540\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth560\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 +ve
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve\cell \lastrow\row
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 \
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1080\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth580\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth540\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth840\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 Division\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve
+\f1\b0 \cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1080\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth580\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth540\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth840\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 -ve
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 X\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1080\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth580\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth540\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth840\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 Zero
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 X\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1080\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clwWidth580\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clwWidth540\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clwWidth840\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 +ve
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 X\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve\cell \lastrow\row
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 \
+\
+\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1360\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clwWidth660\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clwWidth780\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 Postfix\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 ++\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 \'97\'97
+\f1\b0 \cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1360\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clwWidth660\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clwWidth780\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 -ve
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1360\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clwWidth660\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clwWidth780\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 Zero
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 -ve\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clwWidth1360\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clwWidth660\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clwWidth780\clftsWidth3 \clbrdrt\brdrs\brdrw20\brdrcf12 \clbrdrl\brdrs\brdrw20\brdrcf12 \clbrdrb\brdrs\brdrw20\brdrcf12 \clbrdrr\brdrs\brdrw20\brdrcf12 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+
+\f0\b \cf0 +ve
+\f1\b0 \cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 +ve\cell 
+\pard\intbl\itap1\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qc\partightenfactor0
+\cf0 Zero\cell \lastrow\row
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 \
+__________________________________________________________________________\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 \ul Thread Value Class
+\f1\b0\fs24 \ulnone \
+\
+Simple template class which stores a single value for each thread.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf7 \cb4 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 \cb1 __________________________________________________________________________\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf7 \cb4 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf7 \ul Tree Hierarchy
+\f1\b0\fs24 \ulnone \
+\
+A class which creates an unbalanced tree of an arbitrary, user defined hierarchy.\
+It is not a B-Tree.\
+\
+I originally wrote it to get the filing system object hierarchy for a directory.\
+Abstracted out the filing system part, relying on a user defined path and callbacks, blocks or sub-classing to gather a path\'92s children.\
+\
+The basic unit, 
+\f2\fs20 HierNode
+\f1\fs24 , has references (pointers) to their parent (if there is one), previous sibling, next sibling and (
+\f0\b important
+\f1\b0 ) their 
+\f0\b first child
+\f1\b0  only (if present).\
+\
+There is no public API to access & manipulate the references directly.\
+Setting a reference to nil could result in a (very large) memory leak.\
+\
+
+\f0\b Subclassing
+\f1\b0 \
+\
+You generally only need to subclass if you do not want to use callbacks or blocks for sorting, iteration or child gathering.\
+If you do subclass, 
+\f0\b you must override 
+\f2\b0\fs22 \cf3 CreateNode(),
+\f1\fs24  otherwise bad things will happen.\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf3 CreateNode()
+\f1\fs24  is called during the creation of the tree and if you have not overridden the method, your subclass will not be created, a 
+\f2\fs20 HierNode
+\f1\fs24  will.\
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f0\b \cf3 Gathering Children
+\f1\b0 \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf6 bool\cf3  GatherChildren(\cf9 HierNodeChildrenProc\cf3  proc, \cf6 void\cf3 * userCtx);
+\f1 \cf0 \
+
+\f2 \cf6 bool\cf3  GatherChildren(\cf9 HierNodeChildrenBlock\cf3  block);
+\f1 \
+
+\f2 \cf6 bool\cf3  GatherChildren();\
+	\cf8 Calls this\cf3 \
+	\cf6 virtual\cf3  \cf6 const\cf3  \cf5 std\cf3 ::\cf5 vector\cf3 <\cf11 PathClass\cf3 > Children();
+\f1\fs24 \
+\
+Used to create hierarchy for node.\
+You either pass a 
+\f2\fs20 HierNodeChildrenProc
+\f1\fs24  callback, a 
+\f2\fs20 HierNodeChildrenBlock
+\f1\fs24  or override the 
+\f2\fs20 Children()
+\f1\fs24  method in a subclass.\
+You return a list paths that are the children of the node.\
+\
+The node must not possess any children at the time of the 
+\f2\fs20 GatherXXX()
+\f1\fs24  call or an exception will be thrown.\
+Detach or delete the children if you want to refresh the tree.\
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+\cf7 These methods currently only return false (success).\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf7 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b \cf0 \cb1 Iteration
+\f1\b0 \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf6 \cb4 int\cf3  Iterate(\cf9 HierNodeItrProc\cf3  proc, \cf6 void\cf3 * userCtx, \cf9 IterationMode\cf3  mode);
+\f1 \cf0 \
+
+\f2 \cf6 int\cf3  Iterate(\cf9 HierNodeItrBlock\cf3  block, \cf9 IterationMode\cf3  mode);\
+\cf6 int\cf3  Iterate(\cf9 IterationMode\cf3  mode);
+\f1 \cf0 \
+	
+\f2 \cf8 Calls this
+\f1 \cf0 \
+
+\f2 \cf6 	virtual\cf3  \cf6 int\cf3  IterationAction(\cf5 int64_t\cf3  depth);
+\fs22 \
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 \cb1 \
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+\cf3 \cb4 Returning non-zero from any of methods will result in an immediate stop.\
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+\cf0 \cb1 You can iterate a node and all its children (but 
+\f0\b not
+\f1\b0  this node\'92s siblings) using the IterateXXX() methods.\
+You have the choice of depth first, depth first last sibling, breadth first & breath first last sibling.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 The last sibling options start the iteration from the last node of a node\'92s children instead of the first.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 	A\
+	|\
+	B - - - \'97	D\
+	|		|\
+	E \'97 F	G \'97 H\
+	|		|\
+	J		K
+\f1\fs24 \
+\
+Depth First : 			A, B, E, J, F, D, G, K, H\
+Depth First Last Sibling : 	A, D, H, G, K, B, F, E, J\
+Breadth First : 			A, B, D, E, F, J, G, H, K\
+Breadth First Last Sibling : A, D, B, F, E, J, H, G, K\
+\
+The breadth first traversal is not exactly the same as what wikipedia states.\
+When diving into a subtree, other nodes of the same row in different branches will not be traversed until the code surfaces from the sub-tree.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b \cf0 Sibling Sort
+\f1\b0 \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf6 \cb4 static\cf3  \cf6 void\cf3  SiblingSort(\cf9 HierNodeRef\cf3  startNode);
+\f1 \cf0 \
+
+\f2 \cf6 static\cf3  \cf6 void\cf3  SiblingSort(\cf9 HierNodeRef\cf3  startNode, \cf9 HierNodeSortProc\cf3  proc, \cf6 void\cf3 * userCtx);
+\f1 \cf0 \
+
+\f2 \cf6 static\cf3  \cf6 void\cf3  SiblingSort(\cf9 HierNodeRef\cf3  startNode, \cf9 HierNodeSortBlock\cf3  block);
+\f1\fs24 \cf0 \cb1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+Can sort all siblings using a callback or block.\
+First method sorts using 
+\f2\fs20 PathClass::<
+\f1\fs24  operator.\
+\
+
+\f0\b Information Methods
+\f1\b0 \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf6 \cb4 void\cf3  SiblingCount(\cf5 uint64_t\cf3 & beforeMe, \cf5 uint64_t\cf3 & afterMe) \cf6 const\cf3 ;\
+	
+\f1\fs24 Count of siblings before (previous) and after (next) this node.\cf0 \
+\
+
+\f2\fs22 \cf6 virtual\cf3  \cf6 bool\cf3  CountThis() \cf6 const\cf3 ;\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf3 	Only called by 
+\f2\fs20 ChildCount()
+\f1\fs24 , 
+\f2\fs20 SiblingCount(
+\f1\fs24 ) & 
+\f2\fs20 DeepChildCount()
+\f1\fs24 .\
+	Override if you want to do custom counting.\cf0 \
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf3 	
+\f1\fs24 \cf0 \
+
+\f2\fs22 \cf5 std\cf3 ::\cf5 vector\cf3 <\cf5 uint64_t\cf3 > WidthForRow();\
+	
+\f1\fs24 Count of objects for each row of all branches starting at this node\'92s row.\
+	This node is not necessarily the root node.\cf0 \
+\
+
+\f2\fs22 \cf5 std\cf3 ::\cf5 vector\cf3 <\cf9 HierNodeRef\cf3 > SiblingArray();\
+	
+\f1\fs24 All siblings including the node. First item in array is not necessarily this node.\cf0 \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf9 HierNodeRef\cf3  \cf6 operator\cf3 [](\cf5 int64_t\cf3  idx);\
+	
+\f1\fs24 Get node 
+\f0\b relative
+\f1\b0  to this node (which is why index is signed).\
+	If an invalid index, an exception will be thrown.\
+	See 
+\f2\fs22 SiblingCount()
+\f1\fs24  above.\cf0 \
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf3 	
+\f1\fs24 \cf0 \
+
+\f2\fs22 \cf5 std\cf3 ::\cf5 vector\cf3 <\cf9 HierNodeRef\cf3 > AllAtDepthDown(\cf5 int64_t\cf3  depth);\
+	
+\f1\fs24 Return all nodes of depth N (>=0) using only the sub-tree of this node.\cf0 \
+
+\f2\fs22 \cf5 \
+std\cf3 ::\cf5 vector\cf3 <\cf9 HierNodeRef\cf3 > AllAtDepth(\cf5 int64_t\cf3  depth);\
+	
+\f1\fs24 Return all nodes at depth N (can be less than zero), including sibling & ancestor subtrees.\cf0 \
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf9 \
+HierNodeRef\cf3  GetRoot(\cf5 int64_t\cf3 & delta);
+\f1\fs24 \cf0 \cb1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 	Get node which has no parent. If the node has siblings, it will be the first sibling.\
+	Delta is how many rows above this node root is. This will always be <= 0.\
+\
+
+\f0\b Modification Methods
+\f1\b0 \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f2\fs22 \cf6 \cb4 void\cf3  DeleteAllChildren();\
+	
+\f1\fs24 Delete all node\'92s children. Ignores siblings.
+\f2\fs22 \
+\
+\cf6 void\cf3  SiblingDelete();\
+	
+\f1\fs24 Delete this node and all its siblings and all their descendants.
+\f2\fs22 \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+\cf9 HierNodeRef\cf3  DetachChildren();\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf3 	Detach the node\'92s children.\
+	The returned reference is the node\'92s first child.
+\f2\fs22 \
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+\cf6 static\cf3  \cf5 std\cf3 ::\cf5 vector\cf3 <\cf9 HierNodeRef\cf3 > SplitSiblings(\cf9 HierNodeRef\cf3  node);\
+	
+\f1\fs24 Split all siblings this node belongs to into seperate trees.\
+	If any node has a parent, an exception will be thrown.\
+	If an exception occurs, the nodes will still be attached to their parent and memory will not be leaked.\
+\
+\pard\tx543\pardeftab543\pardirnatural\partightenfactor0
+\cf3 \ul Important\ulnone \
+If a node is deleted using 
+\f2\fs20 delete
+\f1\fs24 , the destructor will also delete all its children recursively by calling 
+\f2\fs20 SiblingDelete()
+\f1\fs24 .\
+\
+If you delete a node directly, it is important it is first detached otherwise you will have dangling pointers possessed by the parent and siblings.\
+\
+Static method 
+\f2\fs22 DeleteNode()
+\f1\fs24  will call 
+\f2\fs20 GoItAlone()
+\f1\fs24  and the 
+\f2\fs20 delete
+\f1\fs24  the node.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 \cb1 __________________________________________________________________________
+\f1\fs24 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 \ul Directory Contents
+\f1\b0 \ulnone \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs24 \cf0 \
+Gets the contents of all filing system objects in the directory except for \'91.\'92 & \'91..\'92.\
+\
+The internal array is sorted inside 
+\f2\fs20 Gather()
+\f1\fs24  by calling 
+\f2\fs20 Sort()
+\f1\fs24 .\
+Default is simple string comparison.\
+Override 
+\f2\fs20 Sort()
+\f1\fs24  if you want a different sorting algorithm.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 __________________________________________________________________________\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 \ul Flag Utilities
+\f1\b0 \ulnone \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs24 \cf0 \
+Just a set of Set/Clear/Is flag template functions.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f2\fs20 \cf0 __________________________________________________________________________
+\f1\fs24 \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf0 \ul Miscellaneous
+\f1\b0 \ulnone \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\fs24 \cf0 Simple useful utility functions.\
+Currently only three functions.\
+}
