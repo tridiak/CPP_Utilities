@@ -102,7 +102,7 @@ public:
  The blockSize range is 256 - 65535.
  Max block count range is 1 to UINT_MAX, though a small number is detrimental to performance.
  A very large number will result in the system throwing a fit.
- The constructors allocate a memory block whose size = maxBlock & blockSize.
+ The constructors allocate a memory block whose size = maxBlock x blockSize.
  This is stored in blockArray.
 
  The file is opened during construction, if it fails and exception will be thrown.

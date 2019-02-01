@@ -107,6 +107,7 @@ Colour::Colour(const ColInfo& col, ColType which) {
 	switch (which) {
 		case ColType::RGB:
 			rgb = col;
+			Constrain();
 			break;
 		case ColType::HSV:
 			HSVtoRGB(col, rgb);
@@ -281,7 +282,7 @@ void OutOfRangeCheck(const Colour::ColInfo& C) {
 void OutOfRangeHSV(const Colour::ColInfo& C) {
 	if (C.H() < 0 || C.H() > 360) { throw ColourEx("Colour component not between 0-360"); }
 	for (int t=1; t < 4; t++) {
-		if (C[0] < 0 || C[0] > 1) { throw ColourEx("Colour component not between 0-360"); }
+		if (C[t] < 0 || C[t] > 1) { throw ColourEx("Colour component not between 0-1"); }
 	}
 };
 
@@ -329,7 +330,7 @@ void Colour::RGBtoHSV(const ColInfo& RGB, ColInfo& HSV) {
 };
 
 void Colour::HSVtoRGB(const ColInfo& HSV, ColInfo& RGB) {
-	OutOfRangeCheck(HSV);
+	OutOfRangeHSV(HSV);
 	float H = HSV.H();
 	float C = HSV.V() * HSV.S();
 	float X = C * (1 - fabs( fmod( H/60, 2) - 1));

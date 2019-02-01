@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CPP_Test/Usage.cpp"
-            timestampString = "565858619.800334"
+            timestampString = "570175729.245034"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
+            startingLineNumber = "299"
+            endingLineNumber = "299"
             landmarkName = "TextFileUsage()"
             landmarkType = "9">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CPP-Utilities/ATextFile.cpp"
-            timestampString = "565847144.2317539"
+            timestampString = "570698023.513424"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "411"
-            endingLineNumber = "411"
+            startingLineNumber = "412"
+            endingLineNumber = "412"
             landmarkName = "ABigTextFile::operator[](uint64_t line)"
             landmarkType = "7">
          </BreakpointContent>
@@ -139,6 +139,22 @@
             continueAfterRunningActions = "No"
             scope = "2"
             stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CPP_Test/Usage.cpp"
+            timestampString = "570175729.246058"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "314"
+            endingLineNumber = "314"
+            landmarkName = "TextFileUsage()"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -287,6 +287,12 @@ void TextFileUsage() {
 			Write(atf[r]);
 		}
 		
+		printf("-------------------------All Lines\n");
+		auto ary = atf.AllLines();
+		for (size_t t=0; t < ary.size(); t++) {
+			Write(ary[t]);
+		}
+		
 		//-----------------------
 		// Uncomment DebugBinaryDetailed in ABinaryFile.hpp to see block accesses.
 		
@@ -302,6 +308,12 @@ void TextFileUsage() {
 		for (int t=0; t < 10; t++) {
 			long r = arc4random() % atf.LineCount();
 			Write(btf[r]);
+		}
+		
+		printf("-------------------------All Lines\n");
+		auto bary = btf.AllLines();
+		for (size_t t=0; t < bary.size(); t++) {
+			Write(bary[t]);
 		}
 	}
 	catch (ABinaryFile::ABinaryFileEx& ex) {

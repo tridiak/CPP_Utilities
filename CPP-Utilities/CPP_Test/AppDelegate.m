@@ -19,6 +19,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	// Insert code here to initialize your application
 	HeirarchyUsage();
+//	TextFileUsage();
 	
 	exit(0);
 }

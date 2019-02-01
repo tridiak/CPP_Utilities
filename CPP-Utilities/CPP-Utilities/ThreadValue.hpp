@@ -21,7 +21,7 @@ uint64_t ThreadID();
 
 // Template thread object. Any type.
 template<class T> class ThreadValue {
-	T value;
+	//T value;
 	std::map<uint64_t, T> threadObject;
 	pthread_mutex_t threadObjectLock;
 public:

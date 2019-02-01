@@ -696,6 +696,12 @@ uint16_t ABigBinaryFile::CopyToBlob(void* dest, uint16_t size, uint64_t blockNum
 		
 		return maxSizeRead;
 	}
+	
+	fpos_t sz = blockNumber * blockSize;
+	if (fsetpos(file, &sz)) {
+		std::string s = "Could not copy bytes from file (" + std::to_string(errno) + ")";
+		throw ABinaryFile::ABinaryFileEx(s);
+	}
 	return fread(dest, 1, size, file);
 	
 };

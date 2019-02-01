@@ -573,7 +573,7 @@ std::vector<uint64_t> HierNode::WidthForRow() {
 	widthForRow.resize(GreatestDepth(), 0);
 	
 	HierNodeRef ptr = FirstSibling();
-		while (ptr) {
+	while (ptr) {
 		Iterate(^int(HierNodeRef node, int64_t depth) {
 			widthForRow[depth] += 1;
 			return 0;
@@ -729,7 +729,7 @@ HierNodeRef HierNode::GetRoot(int64_t& delta) {
 #endif
 	delta = 0;
 	HierNodeRef root = this;
-	if (root->parent) {
+	while (root->parent) {
 		delta--;
 		root = root->parent;
 	}
@@ -746,22 +746,20 @@ int HierNode::Iterate(HierNodeItrProc proc, void* userCtx, IterationMode mode) {
 	DebugPretty
 #endif
 	if (!proc) { return rtnBadParam; }
-	if (proc(this, userCtx, 0)) { return rtnAllStop; }
-	if (!firstChild) { return rtnSuccess; }
-	
+	if (!firstChild) { return 0; }
 	
 	switch (mode) {
 		case IterationMode::depthFirst:
-			return firstChild->Iterate_Depth_R(proc, userCtx, 1);
+			return Iterate_Depth_R(proc, userCtx, 0);
 			break;
 		case IterationMode::depthFirstEnd:
-			return firstChild->LastSibling()->Iterate_Depth_End_R(proc, userCtx, 1);
+			return LastSibling()->Iterate_Depth_End_R(proc, userCtx, 0);
 			break;
 		case IterationMode::breadthFirst:
-			return firstChild->Iterate_Breadth_R(proc, userCtx, 1);
+			return Iterate_Breadth_R(proc, userCtx, 0);
 			break;
 		case IterationMode::breadthFirstEnd:
-			return firstChild->LastSibling()->Iterate_Breadth_End_R(proc, userCtx, 1);
+			return LastSibling()->Iterate_Breadth_End_R(proc, userCtx, 0);
 			break;
 		default: exit(1);
 	}
@@ -854,21 +852,20 @@ int HierNode::Iterate(HierNodeItrBlock block, IterationMode mode) {
 	DebugPretty
 #endif
 	if (!block) { return 1; }
-	if (block(this, 0)) { return -1; }
 	if (!firstChild) { return 0; }
 	
 	switch (mode) {
 		case IterationMode::depthFirst:
-			return firstChild->Iterate_Depth_R(block, 1);
+			return Iterate_Depth_R(block, 0);
 			break;
 		case IterationMode::depthFirstEnd:
-			return firstChild->LastSibling()->Iterate_Depth_End_R(block, 1);
+			return LastSibling()->Iterate_Depth_End_R(block, 0);
 			break;
 		case IterationMode::breadthFirst:
-			return firstChild->Iterate_Breadth_R(block, 1);
+			return Iterate_Breadth_R(block, 0);
 			break;
 		case IterationMode::breadthFirstEnd:
-			return firstChild->LastSibling()->Iterate_Breadth_End_R(block, 1);
+			return LastSibling()->Iterate_Breadth_End_R(block, 0);
 			break;
 		default: exit(1);
 	}
@@ -959,21 +956,19 @@ int HierNode::Iterate(IterationMode mode) {
 #ifdef HierNodeDebug
 	DebugPretty
 #endif
-	if (IterationAction(0)) { return -1; }
-	if (!firstChild) { return 0; }
 	
 	switch (mode) {
 		case IterationMode::depthFirst:
-			return firstChild->Iterate_Depth_R(1);
+			return Iterate_Depth_R(0);
 			break;
 		case IterationMode::depthFirstEnd:
-			return firstChild->LastSibling()->Iterate_Depth_End_R(1);
+			return LastSibling()->Iterate_Depth_End_R(0);
 			break;
 		case IterationMode::breadthFirst:
-			return firstChild->Iterate_Breadth_R(1);
+			return Iterate_Breadth_R(0);
 			break;
 		case IterationMode::breadthFirstEnd:
-			return firstChild->LastSibling()->Iterate_Breadth_End_R(1);
+			return LastSibling()->Iterate_Breadth_End_R(0);
 			break;
 		default: exit(1);
 	}
@@ -1038,7 +1033,7 @@ int HierNode::Iterate_Breadth_R(int64_t depth) {
 	return 0;
 };
 
-// Breadth first iteration from last sibling
+// Breadth first iteration from last child
 int HierNode::Iterate_Breadth_End_R(int64_t depth) {
 #if HierNodeDebug == 2
 	DebugPretty

@@ -271,22 +271,23 @@ void ABigTextFile::RetrieveLinePositions() {
 	if (Size() == 0) { return; }
 	lineFeedPositions.push_back(0);
 	
-	uint64_t sz;
-	for (sz = 0; sz < Size(); sz++) {
-		if (IsLineFeed(sz)) {
+	uint64_t pos;
+	for (pos = 0; pos < Size(); pos++) {
+		if (IsLineFeed(pos)) {
 			// For windows new line, sz will be incremented by
 			// an additional 1.
-			lineFeedPositions.push_back(sz);
+	//		printf("Line Index %llu\n", pos);
+			lineFeedPositions.push_back(pos);
 		}
 	}
-	
+//	printf("%lu\n", lineFeedPositions.size());
 	if (textLF == ATextFile::NewLine::windows) {
-		sz = Size() - 2;
-		lastIsLF = IsLineFeed(sz);
+		pos = Size() - 2;
+		lastIsLF = IsLineFeed(pos);
 	}
 	else {
-		sz = Size() - 1;
-		lastIsLF = IsLineFeed(sz);
+		pos = Size() - 1;
+		lastIsLF = IsLineFeed(pos);
 	}
 	
 };
