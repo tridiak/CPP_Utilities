@@ -172,8 +172,8 @@ void RPStringRemoveTrailing(std::string& s, const std::string& cset) {
 	if (s.empty() || cset.empty()) {return;}
 	size_t idx = s.size() - 1;
 	do {
-		if (cset.find(s[idx]) != NPOS) {
-			s = s.substr(0,idx - 1);
+		if (cset.find(s[idx]) == NPOS) {
+			s = s.substr(0,idx + 1);
 			return;
 		}
 		idx--;
@@ -187,8 +187,8 @@ void RPStringRemoveTrailing(std::string& s, const std::set<char>& cset) {
 	if (s.empty() || cset.empty()) {return;}
 	size_t idx = s.size() - 1;
 	do {
-		if (cset.find(s[idx]) != cset.end()) {
-			s = s.substr(0,idx - 1);
+		if (cset.find(s[idx]) == cset.end()) {
+			s = s.substr(0,idx + 1);
 			return;
 		}
 		idx--;
